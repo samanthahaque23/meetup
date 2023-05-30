@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <p>sign up</p>
+    <div class="main centralized">
+        <h3>sign up</h3>
     </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-    <div>
-        <p>sign in</p>
+        <div class="main centralized">
+        <h3>sign in</h3>
     </div>
 </template>

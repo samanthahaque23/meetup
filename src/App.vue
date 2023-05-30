@@ -7,37 +7,35 @@
       color="primary"
       dark
     >
-       <v-app-bar-nav-icon @click="sideNav = !sideNav"></v-app-bar-nav-icon>
-      <v-toolbar-title>Meetup</v-toolbar-title>
-      <v-spacer></v-spacer>
-     
-    </v-app-bar>
-        <v-navigation-drawer v-model="sideNav" absolute temporary color="primary">
-      <v-system-bar></v-system-bar>
-      <v-list>
-        <v-list-item v-for="item in menuItems" :key="item.text">
-          <v-list-item-avatar>
-            <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
-          </v-list-item-avatar>
-        </v-list-item>
+       <v-app-bar-nav-icon @click="sideNav = !sideNav" class="d-lg-none"></v-app-bar-nav-icon>
+      <v-toolbar-title>
+        <router-link to="/" tag="span" style="cursor:pointer;display:block;width:200px !important">Meetup</router-link>
+      </v-toolbar-title>
 
-        <v-list-item link>
-          <v-list-item-content>
-            <v-list-item-title class="text-h6">
-              John Leider
-            </v-list-item-title>
-            <v-list-item-subtitle>john@vuetifyjs.com</v-list-item-subtitle>
-          </v-list-item-content>
-          <v-list-item-action>
-            <v-icon>mdi-menu-down</v-icon>
-          </v-list-item-action>
-        </v-list-item>
-      </v-list>
-      <v-divider></v-divider>
+      <v-spacer></v-spacer>
+             <v-tabs
+            v-model="tab"
+            align-with-title
+            class="d-none d-sm-flex float-right" 
+          >
+            <v-tabs-slider color="yellow"></v-tabs-slider>
+  
+            <v-tab
+             v-for="item in menuItems" :key="item.text" router :to="item.link"
+        
+            >
+            <v-icon>{{ item.icon}}</v-icon>
+              <v-span>{{ item.text }}</v-span>
+            </v-tab>
+          </v-tabs>
+    </v-app-bar>
+        <v-navigation-drawer v-model="sideNav" absolute temporary color="primary" class="d-lg-none d-xl-flex">
+    
+   
       <v-list nav dense>
-        <v-list-item v-for="item in menuItems" :key="item.text">
+        <v-list-item v-for="item in menuItems" :key="item.text" router :to="item.link">
               <v-icon>{{ item.icon}}</v-icon>
-              <v-text>{{ item.text }}</v-text>
+              <v-span>{{ item.text }}</v-span>
         </v-list-item>
        </v-list>
     </v-navigation-drawer>
@@ -61,13 +59,21 @@ export default {
     sideNav:false,
     selectedItem: 1,
       menuItems: [
-        { text: 'VIEW MEETUPS', icon: 'mdi-account-supervisor' },
-        { text: 'ORGANIZE MEETUPS', icon: 'mdi-map-marker' },
-        { text: 'PROFILE', icon: 'mdi-account' },
-        { text: 'SIGN UP', icon: 'mdi-face-man' },
-        { text: 'SIGN IN', icon: 'mdi-lock-open' },
+        {link:'/meetups', text: 'VIEW MEETUPS', icon: 'mdi-account-supervisor' },
+        {link:'/meetup/new', text: 'ORGANIZE MEETUPS', icon: 'mdi-map-marker' },
+        {link:'/profile', text: 'PROFILE', icon: 'mdi-account' },
+        {link:'/signUp', text: 'SIGN UP', icon: 'mdi-face-man' },
+        {link:'/signIn', text: 'SIGN IN', icon: 'mdi-lock-open' },
        
       ],
   }),
 };
 </script>
+<style>
+.centralized{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+</style>

@@ -41,5 +41,6 @@ export default new Router({
             name: 'signUp',
             component: signUp
         },
-    ]
+    ],
+   
 })

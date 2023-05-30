@@ -1,5 +1,5 @@
 <template>
-    <div>
-        <p>Create Meet up</p>
+    <div class="main centralized">
+        <h3>Create Meet up</h3>
     </div>
 </template>
