@@ -16,6 +16,7 @@
       v-for="meetup in meetups"
       :key="meetup.id"
       :src="meetup.imageUrl"
+      @click="onLoadMeetup(meetup.id)"
     >
     <div class="carousel-title">{{ meetup.title }}</div>
 
@@ -34,15 +35,16 @@
 </template>
 <script>
 export default {
-    data() {
-        return {
-            meetups: [
-                { imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/View_of_Empire_State_Building_from_Rockefeller_Center_New_York_City_dllu_%28cropped%29.jpg/1200px-View_of_Empire_State_Building_from_Rockefeller_Center_New_York_City_dllu_%28cropped%29.jpg',id:'gfgf',title:"meetup in NYC"},
-                { imageUrl: 'https://cdn.pixabay.com/photo/2013/04/11/19/46/building-102840_1280.jpg',id:'gfgf',title:"meetup in PARIS"},
-                { imageUrl: 'https://idsb.tmgrup.com.tr/ly/uploads/images/2021/09/08/142845.jpg',id:'gfgf',title:"meetup in UAE"},
-            ]
+    computed:{
+        meetups (){
+            return this.$store.getters.featuredMeetups
         }
     },
+    methods:{
+        onLoadMeetup(id){
+            this.$router.push('/meetups/' + id);
+        }
+    }
 }
 </script>
 <style>
