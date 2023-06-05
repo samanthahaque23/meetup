@@ -15,12 +15,12 @@
                         <v-col class="ma-4">
                             <div class="d-flex justify-center flex-column">
                                 <h3>{{meetup.title }}</h3>
-                                <p>{{ meetup.date}}</p>
+                                <p>{{ meetup.date | date }}</p>
                                 <v-btn
                                     text
                                     style="width:200px;color:white"                                   
                                     class="primary mt-4"
-                                    :to="'/meetup/'+ meetup.id"
+                                    :to=" '/meetup/'+ meetup.id"
 
                                 >
                                     <v-icon color="white"
@@ -41,7 +41,7 @@
  export default  {
     computed: {
         meetups () {
-            return this.$store.getters.loadedMeetups
+            return this.$store.getters.loadedMeetups;
         }
     }
  }

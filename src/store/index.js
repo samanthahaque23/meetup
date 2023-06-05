@@ -1,5 +1,7 @@
+/* eslint-disable no-undef */
 import Vue from 'vue';
 import Vuex from 'vuex';
+import firebase from "firebase";
 
 Vue.use(Vuex)
 
@@ -7,18 +9,22 @@ export const store = new Vuex.Store({
     state:
     {
         loadedMeetups:[
-            { date:'17-july,1996',imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/View_of_Empire_State_Building_from_Rockefeller_Center_New_York_City_dllu_%28cropped%29.jpg/1200px-View_of_Empire_State_Building_from_Rockefeller_Center_New_York_City_dllu_%28cropped%29.jpg',id:'gfg',title:"meetup in NYC"},
-            { date:'17-july,1996',imageUrl: 'https://cdn.pixabay.com/photo/2013/04/11/19/46/building-102840_1280.jpg',id:'ggf',title:"meetup in PARIS"},
-            { date:'17-july,1996',imageUrl: 'https://idsb.tmgrup.com.tr/ly/uploads/images/2021/09/08/142845.jpg',id:'gff',title:"meetup in UAE"},
+            {location: 'New York',description:'yay its new york', date:new Date(),imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/View_of_Empire_State_Building_from_Rockefeller_Center_New_York_City_dllu_%28cropped%29.jpg/1200px-View_of_Empire_State_Building_from_Rockefeller_Center_New_York_City_dllu_%28cropped%29.jpg',id:'gfg',title:"meetup in NYC"},
+            {location: 'New York',description:'yay its new york', date:new Date(),imageUrl: 'https://cdn.pixabay.com/photo/2013/04/11/19/46/building-102840_1280.jpg',id:'ggf',title:"meetup in PARIS"},
+            {location: 'New York',description:'yay its new york', date:new Date(),imageUrl: 'https://idsb.tmgrup.com.tr/ly/uploads/images/2021/09/08/142845.jpg',id:'gff',title:"meetup in UAE"},
         ],
-        User:{
-            id:'gfg',
-            registeredMeetup : ['ffg']
-        }
+        user:null
+       
     },
     mutations: {
         createMeetup (state, payload ) {
             state.loadedMeetups.push(payload)
+        },
+        setUser(state,payload){
+            state.user = payload;
+        },
+        setLoading(state,payload){
+            state.loading = payload;
         }
     },
     actions:{
@@ -29,10 +35,44 @@ export const store = new Vuex.Store({
                 imageUrl:payload.imageUrl,
                 description: payload.description,
                 date:payload.date,
-                id:'gfg'
+                id: new Date().toISOString()
             }
             //reach out to fire bae and storage
             commit('createMeetup',meetup)
+        },
+        signUserUp({commit},payload){
+           firebase.auth().createUserWithEmailAndPassword(payload.email,payload.password)
+           .then(
+            user => {
+               const newUser = {
+                id: user.uid,
+                registeredMeetups: []
+               }
+               commit('setUser',newUser)
+            }
+           )
+           .catch(
+            error => {
+                console.log(error);
+            }
+           )
+        },
+        signUserIn({commit},payload){
+           firebase.auth().signInWithEmailAndPassword(payload.email,payload.password)
+           .then(
+                user => {
+                    const newUser = {
+                     id: user.uid,
+                     registeredMeetups: []
+                    }
+                    commit('setUser',newUser)
+                 }
+           )
+           .catch(
+            error => {
+                console.log(error);
+            }
+           )
         }
     },
     getters:{
@@ -48,8 +88,12 @@ export const store = new Vuex.Store({
                 })
             }
         },
+        user(state){
+           return state.user;
+        },
         featuredMeetups(state,getters){
             return getters.loadedMeetups.slice(0,5);
-        }
+        },
+  
     }
 })

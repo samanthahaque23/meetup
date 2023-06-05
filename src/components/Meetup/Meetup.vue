@@ -4,7 +4,7 @@
         <v-row>
             <v-col>
                 <v-card class="ma-2">
-                    <v-card-title>{{meetup.title }} </v-card-title>
+                    <v-card-title>{{ meetup.title }} </v-card-title>
                     <v-row>
                         <v-col>
                             <v-img max-height="500px"  :src="meetup.imageUrl"></v-img>
@@ -14,9 +14,8 @@
                         <div>{{meetup.title }}S</div>
                     </v-row>
                      <v-row class="primary--text pa-4">
-                        <div>{{ meetup.date}} - Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione vero in quo similique tenetur commodi est ipsam eius tempore voluptatum!</div>
-                        <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione vero in quo similique tenetur commodi est ipsam eius tempore voluptatum!</div>
-                        <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione vero in quo similique tenetur commodi est ipsam eius tempore voluptatum!</div>
+                        <div>{{ meetup.date | date}} - {{ meetup.location }}Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione vero in quo similique tenetur commodi est ipsam eius tempore voluptatum!</div>
+                        <div>{{ meetup.description }}</div>
                     </v-row>
                     <v-row>
                         <v-spacer></v-spacer>
@@ -28,12 +27,12 @@
             </v-col>
         </v-row>
     </v-container>
-</template>
+</template> 
 <script>
  export default  {
     props:['id'],
     computed: {
-        meetup () {
+        meetup () {          
             return this.$store.getters.loadedMeetup(this.id)
         }
     }
