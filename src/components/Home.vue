@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-   <v-container>
+   <v-container color="background">
     <v-row>
         <v-col>
             <v-flex class="text-lg-right text-sm-center">

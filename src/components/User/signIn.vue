@@ -1,5 +1,5 @@
 <template >
-    <v-container class="align-center d-flex justify-center">
+    <v-container class="align-center d-flex justify-center" style="height:93vh">
         <v-row >
             <v-col class="align-center d-flex justify-center">
                 <v-card style="width:60%;">
@@ -27,7 +27,7 @@
                         </v-text-field>
                       
                         <v-btn type="submit">
-                            Sign Up
+                            Sign In
                         </v-btn>
                     </form>
                 </v-card>

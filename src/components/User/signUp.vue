@@ -1,10 +1,14 @@
 <template >
-    <v-container class="align-center d-flex justify-center">
-        <v-row >
-            <v-col class="align-center d-flex justify-center">
-                <v-card style="width:60%;">
+    <v-container class="align-center d-flex justify-center flex-column">
+        <v-row class="col-md-6"> </v-row>
+        <v-row class="col-md-6">
+            <v-col>
+                <v-card>
+                    <v-col class="col-md-12" v-if="error">
+                        <app-alert @dismissed="onDismissed" color="error" :text="error"></app-alert>
+                    </v-col>
 
-                    <form class="pa-4" @submit.prevent="onSignup" >
+                    <form class="pa-4" @submit.prevent="onSignup">
                         <label for="email"> Email</label>
                         <v-text-field
                             name="email"
@@ -21,7 +25,7 @@
                             class="password"
                             id="password"
                             v-model="password"
-                             :rules="[rules.required]"
+                            :rules="[rules.required]"
                             type="password"
                         >
                         </v-text-field>
@@ -32,13 +36,11 @@
                             class="confirmPassword"
                             id="confirmPassword"
                             v-model="confirmPassword"
-                             :rules="[rules.required, rules.match]"
+                            :rules="[rules.required, rules.match]"
                             type="password"
                         >
                         </v-text-field>
-                        <v-btn type="submit">
-                            Sign Up
-                        </v-btn>
+                        <v-btn type="submit"> Sign Up </v-btn>
                     </form>
                 </v-card>
             </v-col>
@@ -47,42 +49,52 @@
 </template>
 <script>
 export default {
-    data () {
+    props:['text'],
+    data() {
         return {
-            email: '',
-            password:'',
-            confirmPassword:'',
-               rules: {
-          required: value => !!value || 'Required.',
-          min: v => v.length >= 8 || 'Min 8 characters',
-          match: this.comparePasswords,
+            email: "",
+            password: "",
+            confirmPassword: "",
+            rules: {
+                required: (value) => !!value || "Required.",
+                min: (v) => v.length >= 8 || "Min 8 characters",
+                match: this.comparePasswords,
+            },
+        };
+    },
+    computed: {
+        user() {
+            return this.$store.getters.user;
         },
+        error(){
+            console.log(this.$store.getters.error,"comp");
+            return this.$store.getters.error;
         }
     },
-    computed:{
-      user(){
-        return this.$store.getters.user
-      }
-    },
-    watch:{
-   user(value){
-         if(value !== null && value !== undefined ){
-          this.$router.push('/')
-         }
-   }
-    },
-    methods:{
-        onSignup (){
-         this.$store.dispatch('signUserUp',{email:this.email,password:this.password})
-        },
-          comparePasswords () {
-            if (this.password !== this.confirmPassword) {
-                return "passwords does not match"
+    watch: {
+        user(value) {
+            if (value !== null && value !== undefined) {
+                this.$router.push("/");
             }
-            else
-            return "confirmed "
-         
-        }
-    }
-}
+        },
+    },
+    methods: {
+        onSignup() {
+            this.$store.dispatch("signUserUp", {
+                email: this.email,
+                password: this.password,
+            });
+        },
+        onDismissed() {
+            console.log("dis");
+            this.$store.dispatch('clearError')
+
+        },
+        comparePasswords() {
+            if (this.password !== this.confirmPassword) {
+                return "passwords does not match";
+            } else return "confirmed ";
+        },
+    },
+};
 </script>

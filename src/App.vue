@@ -21,7 +21,6 @@
 
                 <v-spacer></v-spacer>
                 <v-tabs
-                    v-model="tab"
                     align-with-title
                     class="d-none d-sm-flex float-right"
                 >
@@ -34,9 +33,16 @@
                         :to="item.link"
                     >
                         <v-icon>{{ item.icon }}</v-icon>
-                        <v-span>{{ item.text }}</v-span>
+                        <span>{{ item.text }}</span>
                     </v-tab>
                 </v-tabs>
+              <div class="pa-5 mt-4">
+                  <v-switch
+                    v-model="switch1"
+                    inset
+                    @click="$vuetify.theme.dark = !$vuetify.theme.dark"
+                ></v-switch>
+              </div>
             </v-app-bar>
             <v-navigation-drawer
                 v-model="sideNav"
@@ -53,7 +59,7 @@
                         :to="item.link"
                     >
                         <v-icon>{{ item.icon }}</v-icon>
-                        <v-span>{{ item.text }}</v-span>
+                        <span>{{ item.text }}</span>
                     </v-list-item>
                 </v-list>
             </v-navigation-drawer>
@@ -74,6 +80,7 @@ export default {
         sideNav: false,
         selectedItem: 1,
         menuItemks: [],
+         switch1: true,
     }),
     computed: {
         menuItems() {
@@ -99,9 +106,12 @@ export default {
             }
             return menuItems;
         },
-        userIsAuthenticated(){
-          return this.$store.getters.user !== null && this.$store.getters.user !== undefined
-        }
+        userIsAuthenticated() {
+            return (
+                this.$store.getters.user !== null &&
+                this.$store.getters.user !== undefined
+            );
+        },
     },
 };
 </script>

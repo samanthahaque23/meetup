@@ -13,7 +13,8 @@ export const store = new Vuex.Store({
             {location: 'New York',description:'yay its new york', date:new Date(),imageUrl: 'https://cdn.pixabay.com/photo/2013/04/11/19/46/building-102840_1280.jpg',id:'ggf',title:"meetup in PARIS"},
             {location: 'New York',description:'yay its new york', date:new Date(),imageUrl: 'https://idsb.tmgrup.com.tr/ly/uploads/images/2021/09/08/142845.jpg',id:'gff',title:"meetup in UAE"},
         ],
-        user:null
+        user:null,
+        error: null
        
     },
     mutations: {
@@ -25,6 +26,12 @@ export const store = new Vuex.Store({
         },
         setLoading(state,payload){
             state.loading = payload;
+        },
+        setError(state, payload){
+            state.error = payload;
+        },
+        clearError(state){
+            state.error = null;
         }
     },
     actions:{
@@ -40,19 +47,21 @@ export const store = new Vuex.Store({
             //reach out to fire bae and storage
             commit('createMeetup',meetup)
         },
-        signUserUp({commit},payload){
-           firebase.auth().createUserWithEmailAndPassword(payload.email,payload.password)
-           .then(
-            user => {
-               const newUser = {
-                id: user.uid,
-                registeredMeetups: []
-               }
-               commit('setUser',newUser)
+        signUserUp({commit}, payload) {
+           commit('setLoading', true)
+           commit('clearError')
+           firebase.auth().createUserWithEmailAndPassword(payload.email,payload.password).then( user => {
+                commit('setLoading',false)
+                const newUser = {
+                    id: user.uid,
+                    registeredMeetups: []
+                }
+                commit('setUser', newUser)
             }
            )
-           .catch(
-            error => {
+           .catch( error => {
+                commit('setLoading',false)
+                commit('setError', error)
                 console.log(error);
             }
            )
@@ -73,8 +82,10 @@ export const store = new Vuex.Store({
                 console.log(error);
             }
            )
-        }
+        },
+     
     },
+    
     getters:{
         loadedMeetups(state){
             return state.loadedMeetups.sort((meetupA,meetupB) => {
@@ -89,11 +100,18 @@ export const store = new Vuex.Store({
             }
         },
         user(state){
+
            return state.user;
         },
         featuredMeetups(state,getters){
             return getters.loadedMeetups.slice(0,5);
         },
+        error(state){
+            return state.error
+        },
+        loading(state){
+            return state.loading
+        }
   
     }
 })

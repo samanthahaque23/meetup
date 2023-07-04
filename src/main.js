@@ -4,13 +4,15 @@ import vuetify from './plugins/vuetify'
 import router from './router'
 import {store} from './store'
 import DateFilter from './filters/date'
-import firebase from 'firebase/app';
+import firebase from 'firebase/app'
+import AlertCmp from './components/shared/Alert.vue'
 
 import Vuetify from 'vuetify/lib'
 
 Vue.config.productionTip = false
 Vue.filter('date',DateFilter)
 Vue.use(Vuetify)
+Vue.component('app-alert',AlertCmp)
 
 new Vue({
    vuetify,
