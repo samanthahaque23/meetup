@@ -14,8 +14,8 @@ export const store = new Vuex.Store({
             {location: 'New York',description:'yay its new york', date:new Date(),imageUrl: 'https://idsb.tmgrup.com.tr/ly/uploads/images/2021/09/08/142845.jpg',id:'gff',title:"meetup in UAE"},
         ],
         user:null,
-        error: null
-       
+        error: null,
+        loading:false,        
     },
     mutations: {
         createMeetup (state, payload ) {
@@ -67,9 +67,12 @@ export const store = new Vuex.Store({
            )
         },
         signUserIn({commit},payload){
+            commit('setLoading', true)
+            commit('clearError')
            firebase.auth().signInWithEmailAndPassword(payload.email,payload.password)
            .then(
                 user => {
+                commit('setLoading',false)
                     const newUser = {
                      id: user.uid,
                      registeredMeetups: []
@@ -79,6 +82,8 @@ export const store = new Vuex.Store({
            )
            .catch(
             error => {
+                commit('setLoading',false)
+                commit('setError', error)
                 console.log(error);
             }
            )

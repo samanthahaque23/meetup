@@ -1,10 +1,18 @@
 <template >
     <v-container class="align-center d-flex justify-center" style="height:93vh">
         <v-row >
+       
             <v-col class="align-center d-flex justify-center">
-                <v-card style="width:60%;">
 
-                    <form class="pa-4" @submit.prevent="onSignup" >
+                <v-card style="width:60%;">
+      <v-col class="col-md-12" v-if="error">
+                        <app-alert
+                            @dismissed="onDismissed"
+                            color="error"
+                            :text="error"
+                        ></app-alert>
+                    </v-col>
+                    <form class="pa-4" @submit.prevent="onSignIn" >
                         <label for="email"> Email</label>
                         <v-text-field
                             name="email"
@@ -26,7 +34,15 @@
                         >
                         </v-text-field>
                       
-                        <v-btn type="submit">
+                       <v-btn
+                            :loading="loading"
+                            :disabled ="loading"
+                            type="submit"
+                            class="flex-grow-1"
+                            height="48"
+                            variant="tonal"
+                            @click="load"
+                        >
                             Sign In
                         </v-btn>
                     </form>
@@ -47,7 +63,15 @@ export default {
     computed:{
       user(){
         return this.$store.getters.user
-      }
+      },
+           error() {
+            console.log(this.$store.getters.error, "comp");
+            return this.$store.getters.error;
+        },
+        loading(){
+            return this.$store.getters.loading;
+
+        }
     },
     watch:{
    user(value){
@@ -57,9 +81,14 @@ export default {
    }
     },
     methods:{
-        onSignup (){
+        onSignIn (){
          this.$store.dispatch('signUserIn',{email:this.email,password:this.password})
         },
+          onDismissed() {
+            console.log("dis");
+            this.$store.dispatch("clearError");
+        },
+        
     }
 }
 </script>

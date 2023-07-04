@@ -5,7 +5,11 @@
             <v-col>
                 <v-card>
                     <v-col class="col-md-12" v-if="error">
-                        <app-alert @dismissed="onDismissed" color="error" :text="error"></app-alert>
+                        <app-alert
+                            @dismissed="onDismissed"
+                            color="error"
+                            :text="error"
+                        ></app-alert>
                     </v-col>
 
                     <form class="pa-4" @submit.prevent="onSignup">
@@ -40,7 +44,17 @@
                             type="password"
                         >
                         </v-text-field>
-                        <v-btn type="submit"> Sign Up </v-btn>
+                        <v-btn
+                            :loading="loading"
+                            :disabled ="loading"
+                            type="submit"
+                            class="flex-grow-1"
+                            height="48"
+                            variant="tonal"
+                            @click="load"
+                        >
+                            Sign Up 
+                        </v-btn>
                     </form>
                 </v-card>
             </v-col>
@@ -49,7 +63,7 @@
 </template>
 <script>
 export default {
-    props:['text'],
+    props: ["text"],
     data() {
         return {
             email: "",
@@ -66,9 +80,13 @@ export default {
         user() {
             return this.$store.getters.user;
         },
-        error(){
-            console.log(this.$store.getters.error,"comp");
+        error() {
+            console.log(this.$store.getters.error, "comp");
             return this.$store.getters.error;
+        },
+        loading(){
+            return this.$store.getters.loading;
+
         }
     },
     watch: {
@@ -87,8 +105,7 @@ export default {
         },
         onDismissed() {
             console.log("dis");
-            this.$store.dispatch('clearError')
-
+            this.$store.dispatch("clearError");
         },
         comparePasswords() {
             if (this.password !== this.confirmPassword) {
