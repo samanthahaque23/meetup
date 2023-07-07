@@ -11,10 +11,10 @@
                         </v-col>
                     </v-row>
                     <v-row class="primary--text pl-4">
-                        <div>{{meetup.title }}S</div>
+                        <div>{{meetup.title }}</div>
                     </v-row>
                      <v-row class="primary--text pa-4">
-                        <div>{{ meetup.date | date}} - {{ meetup.location }}Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione vero in quo similique tenetur commodi est ipsam eius tempore voluptatum!</div>
+                        <div>{{ meetup.date | date}} - {{ meetup.location }}</div>
                         <div>{{ meetup.description }}</div>
                     </v-row>
                     <v-row>

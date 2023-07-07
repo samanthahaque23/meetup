@@ -51,7 +51,6 @@
                             class="flex-grow-1"
                             height="48"
                             variant="tonal"
-                            @click="load"
                         >
                             Sign Up 
                         </v-btn>

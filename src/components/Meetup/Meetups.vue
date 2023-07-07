@@ -1,4 +1,4 @@
-<!-- eslint-disable vue/multi-word-component-names -->h3
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <v-container>
         <v-row>

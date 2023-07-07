@@ -41,7 +41,6 @@
                             class="flex-grow-1"
                             height="48"
                             variant="tonal"
-                            @click="load"
                         >
                             Sign In
                         </v-btn>

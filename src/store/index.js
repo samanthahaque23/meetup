@@ -18,6 +18,9 @@ export const store = new Vuex.Store({
         loading:false,        
     },
     mutations: {
+        setLoadedMeetups(state,payload){
+            state.loadedMeetups = payload
+        },
         createMeetup (state, payload ) {
             state.loadedMeetups.push(payload)
         },
@@ -35,17 +38,57 @@ export const store = new Vuex.Store({
         }
     },
     actions:{
+        loadMeetups({commit}){
+        commit('setLoading',true)
+          firebase.database().ref('meetups').once('value')
+          .then((data)=>{
+            const meetups = []
+            const obj = data.val()
+            for(let key in obj){
+                meetups.push({
+                    id:key,
+                    title:obj[key].title,
+                    location:obj[key].location,
+                    description:obj[key].description,
+                    imageUrl:obj[key].imageUrl,
+                    date:obj[key].date,
+
+                })
+            }
+            commit('setLoading',false)
+            commit('setLoadedMeetups',meetups)
+          })
+          .catch(
+            (error) =>{
+                console.log(error);
+                commit('setLoading',false)
+
+            }
+
+          )  
+        },
         createMeetup({commit},payload){
             const meetup = {
                 title: payload.title,
-                localStorage: payload.location,
+                location: payload.location,
                 imageUrl:payload.imageUrl,
                 description: payload.description,
-                date:payload.date,
-                id: new Date().toISOString()
+                date:payload.date.toISOString(),
             }
+            firebase.database().ref('meetups').push(meetup)
+            .then((data)=>{
+                console.log(data,"data");
+                const key = data.key
+                commit('createMeetup',{
+                    ...meetup,
+                    id:key
+                })
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
             //reach out to fire bae and storage
-            commit('createMeetup',meetup)
+            // commit('createMeetup',meetup)
         },
         signUserUp({commit}, payload) {
            commit('setLoading', true)
