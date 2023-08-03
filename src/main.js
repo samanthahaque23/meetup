@@ -24,9 +24,14 @@ new Vue({
       apiKey: "AIzaSyCoNu9No-ea5WwQKAg6QHf0h0xruWITyzA",
       authDomain: "meetup-23.firebaseapp.com",
       projectId: "meetup-23",
-      storageBucket: "meetup-23.appspot.com",
+      storageBucket: "gs://meetup-23.appspot.com",
       messagingSenderId: "384906729425",
       appId: "1:384906729425:web:8378be7cbe81568cf6b2f0",
+    })
+    firebase.auth().onAuthStateChanged((user) => {
+      if(user){
+        this.$store.dispatch('autoSignIn',user)
+      }
     })
     this.$store.dispatch('loadMeetups')
 

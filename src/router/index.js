@@ -7,6 +7,7 @@ import Profile from '@/components/User/Profile'
 import signUp from '@/components/User/signUp'
 import signIn from '@/components/User/signIn'
 import Router from 'vue-router'
+import AuthGuard from './auth-guard'
 
 Vue.use(Router)
 
@@ -25,7 +26,8 @@ export default new Router({
         {
             path: '/meetup/new',
             name: 'createMeetups',
-            component: createMeetup
+            component: createMeetup,
+            beforeEnter:AuthGuard
         },
         {
             path: '/meetup/:id',
@@ -36,7 +38,8 @@ export default new Router({
         {
             path: '/profile',
             name: 'Profile',
-            component: Profile
+            component: Profile,
+            beforeEnter:AuthGuard
         },
         {
             path: '/signIn',

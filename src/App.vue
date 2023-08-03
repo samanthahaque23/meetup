@@ -43,6 +43,10 @@
                     @click="$vuetify.theme.dark = !$vuetify.theme.dark"
                 ></v-switch>
               </div>
+              <v-btn color="primary" v-if="userIsAuthenticated" @click="onLogout">
+                <v-icon>mdi-exit-to-app</v-icon>
+                <div>logout</div>
+              </v-btn>
             </v-app-bar>
             <v-navigation-drawer
                 v-model="sideNav"
@@ -82,6 +86,11 @@ export default {
         menuItemks: [],
          switch1: true,
     }),
+    methods:{
+        onLogout(){
+this.$store.dispatch('logout')
+        }
+    },
     computed: {
         menuItems() {
             let menuItems = [
