@@ -81,9 +81,7 @@ export const store = new Vuex.Store({
             let key
             firebase.database().ref('meetups').push(meetup)
             .then((data)=>{
-                console.log(data,"data");
-                 key = data.key
-              
+                key = data.key
                 return key;
             })
             .then(key=>{
@@ -92,11 +90,11 @@ export const store = new Vuex.Store({
                 return firebase.storage().ref('meetups/' + key  + ext).put(payload.image)
 
             })
-            .then(fileData =>{
-                imageUrl = fileData.metadata.storageReference.getDownloadURL[0]
-               console.log(imageUrl,"image");
-                return firebase.database().ref('meetups').child(key).update({imageUrl: imageUrl})
-            })
+            .then(async fileData => {
+                const url = await fileData.ref.getDownloadURL();
+                imageUrl = url;
+                return await firebase.database().ref('meetups').child(key).update({ imageUrl: url });
+              })
             .then(()=>{
             commit('createMeetup',{
                     ...meetup,
@@ -163,7 +161,7 @@ commit('setUser',{id:payload.uid,registeredMeetups:[]})
     
     getters:{
         loadedMeetups(state){
-            return st ate.loadedMeetups.sort((meetupA,meetupB) => {
+            return state.loadedMeetups.sort((meetupA,meetupB) => {
                 return meetupA.date > meetupB.date
             })
         },

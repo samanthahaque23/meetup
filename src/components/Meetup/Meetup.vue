@@ -3,19 +3,23 @@
     <v-container>
         <v-row>
             <v-col>
-                <v-card class="ma-2">
-                    <v-card-title>{{ meetup.title }} </v-card-title>
+                <v-card class="ma-2" elevation="10">
+                    <v-card-title>
+                        <h2 class="primary--text">{{ meetup.title }} </h2>
+                    </v-card-title>
                     <v-row>
-                        <v-col>
+                        <v-col class="mx-3">
                             <v-img max-height="500px"  :src="meetup.imageUrl"></v-img>
                         </v-col>
                     </v-row>
-                    <v-row class="primary--text pl-4">
+                    <v-row class="primary--text mx-3">
                         <div>{{meetup.title }}</div>
                     </v-row>
-                     <v-row class="primary--text pa-4">
-                        <div>{{ meetup.date | date}} - {{ meetup.location }}</div>
+                     <v-row class="primary--text mx-3">
                         <div>{{ meetup.description }}</div>
+                    </v-row>
+                     <v-row class="primary--text mx-3">
+                        <div><b><h4>{{ meetup.date | date}} - {{ meetup.location }}</h4></b></div>
                     </v-row>
                     <v-row>
                         <v-spacer></v-spacer>

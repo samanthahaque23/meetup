@@ -39,10 +39,15 @@
 </template>
 <script>
  export default  {
+        mounted () {
+      this.$store.dispatch('loadMeetups')
+     },
     computed: {
-        meetups () {
-            return this.$store.getters.loadedMeetups;
-        }
+      meetups () {
+        return this.$store.getters.loadedMeetups
+      }
     }
- }
+  }
+
+
 </script>
